@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun irAlInicio() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, ConexionActivity::class.java))
         finish()
     }
 }

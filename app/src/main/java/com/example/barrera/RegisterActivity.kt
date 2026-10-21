@@ -48,7 +48,7 @@ class RegisterActivity : AppCompatActivity() {
                     val cambios = UserProfileChangeRequest.Builder().setDisplayName(nombre).build()
                     resultado.user?.updateProfile(cambios)
 
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, ConexionActivity::class.java))
                     finishAffinity()
                 }
                 .addOnFailureListener { error ->
