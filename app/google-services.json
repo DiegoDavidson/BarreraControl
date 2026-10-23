@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "84531461960",
+    "project_id": "barreraandroid",
+    "storage_bucket": "barreraandroid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84531461960:android:cf9395488a357a04ec7d7d",
+        "android_client_info": {
+          "package_name": "com.example.barrera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnHK_VQaFiyioTk803OBx6muCCwbjokOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
