@@ -11,7 +11,7 @@ import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class HistorialActivity : AppCompatActivity() {
+class HistorialActivity : ActividadSegura() {
 
     private var registro: ListenerRegistration? = null
 

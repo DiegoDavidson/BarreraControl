@@ -11,7 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 
-class TarjetasActivity : AppCompatActivity() {
+class TarjetasActivity : ActividadSegura() {
 
     private val tarjetas = FirebaseFirestore.getInstance().collection("tarjetas")
     private var registro: ListenerRegistration? = null

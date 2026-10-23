@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ActividadSegura() {
 
     private var registro: ListenerRegistration? = null
 
