@@ -33,8 +33,9 @@ class RegisterActivity : AppCompatActivity() {
                 mostrar("Completa todos los campos")
                 return@setOnClickListener
             }
-            if (clave.length < 8) {
-                mostrar("La contraseña debe tener al menos 8 caracteres")
+            val problema = errorDeClave(clave, correo)
+            if (problema != null) {
+                mostrar(problema)
                 return@setOnClickListener
             }
             if (clave != clave2) {
@@ -58,6 +59,22 @@ class RegisterActivity : AppCompatActivity() {
                         mostrar("Error: ${error.message}")
                     }
                 }
+        }
+    }
+
+    // Devuelve el primer requisito que no cumple la contraseña, o null si es válida
+    private fun errorDeClave(clave: String, correo: String): String? {
+        val usuarioCorreo = correo.substringBefore("@")
+        return when {
+            clave.length < 8 -> "La contraseña debe tener al menos 8 caracteres"
+            clave.any { it.isWhitespace() } -> "La contraseña no puede tener espacios"
+            clave.none { it.isUpperCase() } -> "La contraseña debe tener una mayúscula"
+            clave.none { it.isLowerCase() } -> "La contraseña debe tener una minúscula"
+            clave.none { it.isDigit() } -> "La contraseña debe tener un número"
+            clave.all { it.isLetterOrDigit() } -> "La contraseña debe tener un símbolo (ej: ! # $ %)"
+            usuarioCorreo.length >= 3 && clave.contains(usuarioCorreo, ignoreCase = true) ->
+                "La contraseña no puede contener tu correo"
+            else -> null
         }
     }
 
