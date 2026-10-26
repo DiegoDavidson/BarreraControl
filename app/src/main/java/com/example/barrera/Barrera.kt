@@ -39,6 +39,13 @@ object Barrera {
         }, 2000)
     }
 
+    // La barrera real baja sola después de unos segundos, se abra como se abra
+    private const val TIEMPO_ABIERTA_MS = 5000L
+    private val reloj = Handler(Looper.getMainLooper())
+    private val cierreAutomatico = Runnable {
+        enviar("CERRAR", "Cierre automático", "Barrera")
+    }
+
     fun enviar(comando: String, tipo: String? = null, quien: String? = null) {
         // Más adelante: escribir el comando en el socket Bluetooth
         Log.d("Barrera", "Comando enviado: $comando")
@@ -49,6 +56,11 @@ object Barrera {
             tipo ?: if (abrir) "Apertura manual" else "Cierre manual",
             quien ?: nombreUsuario()
         )
+
+        // Cada orden reinicia la cuenta: un cierre manual cancela el cierre
+        // pendiente y una nueva apertura vuelve a contar desde cero
+        reloj.removeCallbacks(cierreAutomatico)
+        if (abrir) reloj.postDelayed(cierreAutomatico, TIEMPO_ABIERTA_MS)
     }
 
     // Revisa si la tarjeta está registrada y activa
@@ -60,10 +72,6 @@ object Barrera {
 
                 if (autorizada) {
                     enviar("ABRIR", "Entrada autorizada", "${tarjeta?.getString("nombre")} ($uid)")
-                    // La barrera real baja sola después de unos segundos
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        enviar("CERRAR", "Cierre automático", "Barrera")
-                    }, 5000)
                 } else {
                     registrar("Acceso denegado", "Tarjeta $uid")
                 }
