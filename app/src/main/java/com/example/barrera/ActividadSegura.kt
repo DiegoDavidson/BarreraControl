@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 // Tiempo sin tocar la pantalla antes de cerrar la sesión (15 minutos).
 // Para probar, cámbialo temporalmente a 10_000L (10 segundos).
-const val INACTIVIDAD_MS = 10_000L
+const val INACTIVIDAD_MS = 900_000L
 
 // Pantalla base: cierra la sesión si el usuario deja de usar la app
 open class ActividadSegura : AppCompatActivity() {
