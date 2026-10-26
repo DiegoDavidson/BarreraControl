@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function conSesion() {
+      return request.auth != null;
+    }
+
+    // Estado de la barrera: un solo documento, solo el campo "abierta"
+    match /barrera/{id} {
+      allow read: if conSesion();
+      allow write: if conSesion()
+        && id == 'barrera1'
+        && request.resource.data.keys().hasOnly(['abierta'])
+        && request.resource.data.abierta is bool;
+    }
+
+    // Tarjetas autorizadas
+    match /tarjetas/{id} {
+      allow read: if conSesion();
+
+      allow create: if conSesion()
+        && request.resource.data.keys().hasOnly(['nombre', 'uid', 'activa'])
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() > 0
+        && request.resource.data.nombre.size() <= 50
+        && request.resource.data.uid is string
+        && request.resource.data.uid.size() > 0
+        && request.resource.data.uid.size() <= 30
+        && request.resource.data.activa is bool;
+
+      // Solo se puede pausar o reactivar; nombre y uid no cambian
+      allow update: if conSesion()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['activa'])
+        && request.resource.data.activa is bool;
+
+      allow delete: if conSesion();
+    }
+
+    // Historial: se puede leer y agregar, nunca modificar ni borrar
+    match /eventos/{id} {
+      allow read: if conSesion();
+
+      allow create: if conSesion()
+        && request.resource.data.keys().hasOnly(['tipo', 'usuario', 'hora'])
+        && request.resource.data.tipo is string
+        && request.resource.data.tipo.size() <= 50
+        && request.resource.data.usuario is string
+        && request.resource.data.usuario.size() <= 100
+        && request.resource.data.hora == request.time;
+
+      allow update, delete: if false;
+    }
+
+    // Todo lo demás queda bloqueado
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
