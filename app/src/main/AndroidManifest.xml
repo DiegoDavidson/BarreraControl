@@ -39,6 +39,8 @@
 
         <activity android:name=".TarjetasActivity" />
 
+        <activity android:name=".PerfilActivity" />
+
     </application>
 
 </manifest>
