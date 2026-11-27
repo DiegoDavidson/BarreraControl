@@ -1,9 +1,45 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema claro: verde azulado, fondos suaves, esquinas redondeadas -->
     <style name="Base.Theme.BarreraControl" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#0F766E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#CCFBF1</item>
+        <item name="colorOnPrimaryContainer">#00403A</item>
+        <item name="colorSecondaryContainer">#CCFBF1</item>
+        <item name="colorOnSecondaryContainer">#00403A</item>
+        <item name="android:colorBackground">#F4F7F6</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorSurfaceContainer">#FFFFFF</item>
+        <item name="colorOutlineVariant">#DCE4E2</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="shapeAppearanceSmallComponent">@style/Forma.Redondeada</item>
+        <item name="shapeAppearanceMediumComponent">@style/Forma.Redondeada</item>
+    </style>
+
+    <style name="Forma.Redondeada" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="Theme.BarreraControl" parent="Base.Theme.BarreraControl" />
+
+    <!-- Estilos de texto compartidos por todas las pantallas -->
+    <style name="Texto.Titulo" parent="">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Texto.Subtitulo" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="Texto.Seccion" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
 </resources>
