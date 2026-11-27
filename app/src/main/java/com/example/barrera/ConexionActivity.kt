@@ -1,6 +1,7 @@
 package com.example.barrera
 
 import android.Manifest
+import android.bluetooth.BluetoothManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -41,6 +42,12 @@ class ConexionActivity : ActividadSegura() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+
+        // Sin conexión: el panel solo muestra el estado que llega por Firestore
+        findViewById<Button>(R.id.btnSoloLectura).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun conectar() {
@@ -54,14 +61,30 @@ class ConexionActivity : ActividadSegura() {
         }
     }
 
-    // La conexión sigue simulada; más adelante aquí va el BluetoothSocket
     private fun iniciarConexion() {
+        // El Bluetooth tiene que estar encendido
+        val adaptador = getSystemService(BluetoothManager::class.java)?.adapter
+        if (adaptador == null || !adaptador.isEnabled) {
+            tvEstado.text = "Enciende el Bluetooth del celular"
+            return
+        }
+
+        // El módulo es BLE: no hace falta emparejarlo, se conecta directo por su dirección MAC
+        val modulo = adaptador.getRemoteDevice(MAC_HC05)
+
         btnConectar.isEnabled = false
         tvEstado.text = "Conectando..."
 
-        Barrera.conectar("HC-05 · Barrera 1") {
-            tvEstado.text = "Conectado a ${Barrera.dispositivo}"
-            btnPanel.isEnabled = true
+        Barrera.conectar(this, modulo) { exito ->
+            btnConectar.isEnabled = true
+            if (exito) {
+                // Conectado: aviso y directo al panel
+                Toast.makeText(this, "Conectado a ${Barrera.nombreDispositivo ?: "HC-05"}", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                tvEstado.text = "Error: no se pudo conectar (${Barrera.ultimoError}). ¿Está encendido el Arduino y cerrada la otra app?"
+            }
         }
     }
 }
